@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a test - Driver and Vehicle Standards Agency</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content-grid">
+            <div class="left-column">
+                <div class="page-header">
+                    <h1>Find a test</h1>
+                    <div class="page-description">
+                        <p>Select a test centre to see available test slots for the next 24 weeks.</p>
+                    </div>
+                </div>
+
+                <div class="week-navigation">
+                    <button id="prevWeek" class="nav-button">← Previous Week</button>
+                    <span class="week-display">28 Nov - 4 Dec</span>
+                    <button id="nextWeek" class="nav-button">Next Week →</button>
+                </div>
+
+                <div class="test-slots-container">
+                    <table class="slots-table">
+                        <thead>
+                            <tr>
+                                <th class="test-centre-header">Test centre and category</th>
+                                <th class="day-header">Mon<div class="date">28</div></th>
+                                <th class="day-header">Tue<div class="date">29</div></th>
+                                <th class="day-header">Wed<div class="date">30</div></th>
+                                <th class="day-header">Thu<div class="date">1</div></th>
+                                <th class="day-header">Fri<div class="date">2</div></th>
+                                <th class="day-header">Sat<div class="date">3</div></th>
+                                <th class="day-header">Sun<div class="date">4</div></th>
+                            </tr>
+                        </thead>
+                        <tbody id="test-centres-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="add-centre-section">
+                    <h2>Add test centre</h2>
+                    <div class="centre-selection">
+                        <select id="centreSelect" class="centre-dropdown">
+                            <option value="">Select a test centre</option>
+                            <option value="edinburgh">Edinburgh</option>
+                            <option value="glasgow">Glasgow</option>
+                            <option value="aberdeen">Aberdeen</option>
+                            <option value="dundee">Dundee</option>
+                        </select>
+                        <button id="addCentreBtn" class="btn-add-centre">Add centre</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="search-results">
+                    <h2>Number of available tests between 28th Nov 2025 – 4th Dec 2025</h2>
+                    
+                    <div class="search-criteria">
+                        <p>Your search criteria is Category <strong>Car</strong>, Special needs <strong>None</strong>, Extended test: <strong>No</strong></p>
+                        <a href="#" class="refine-link">Refine your search criteria</a>
+                    </div>
+
+                    <div class="key-section">
+                        <h3>Key</h3>
+                        <div class="key-items">
+                            <div class="key-item">
+                                <span class="key-number available">9</span>
+                                <span class="key-text">Number of available tests</span>
+                            </div>
+                            <div class="key-item">
+                                <span class="key-number unavailable">0</span>
+                                <span class="key-text">Currently you can not set up an availability alert for this date</span>
+                            </div>
+                            <div class="key-item">
+                                <span class="key-number alert">0</span>
+                                <span class="key-text">Currently no tests are available. You can request an alert to be sent to you if tests become available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

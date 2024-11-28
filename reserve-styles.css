@@ -1,0 +1,341 @@
+.reserve-main {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.reserve-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.return-link {
+    margin: 1rem 0;
+}
+
+.back-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.search-criteria {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.btn-refine {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.btn-refine:hover {
+    text-decoration: underline;
+}
+
+.tests-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tests-table th,
+.tests-table td {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.tests-table th {
+    background: var(--background-light);
+    font-weight: 600;
+    color: #333;
+}
+
+.tests-table tr {
+    transition: opacity 0.3s ease-out;
+}
+
+.tests-table tr:hover {
+    background: #f8f9fa;
+}
+
+.no-tests {
+    text-align: center;
+    padding: 2rem !important;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.no-slots-text {
+    color: var(--danger-color);
+    font-weight: 500;
+}
+
+.btn-reserve {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-reserve:hover {
+    background: var(--primary-dark);
+}
+
+.btn-reserve.disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-reserve:active {
+    transform: translateY(1px);
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-remove:hover {
+    background: rgba(212, 53, 28, 0.1);
+}
+
+.reserved-tests {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reserved-tests h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    color: var(--text-color);
+}
+
+.reserved-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reserved-table th,
+.reserved-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.reserved-table th {
+    font-weight: 600;
+    color: var(--text-color);
+    background: var(--background-light);
+}
+
+.reserved-table tr:last-child td {
+    border-bottom: none;
+}
+
+.reserved-table td[colspan] {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.success-message {
+    background: #34a853;
+    color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Confirmation Dialog Styles */
+.dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.confirm-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    max-width: 500px;
+    width: 90%;
+}
+
+.confirm-dialog h4 {
+    margin: 0 0 1rem;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.confirm-dialog p {
+    margin: 0 0 1.5rem;
+    color: #666;
+}
+
+.confirm-dialog table {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-collapse: collapse;
+}
+
+.confirm-dialog table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.confirm-dialog table td:first-child {
+    color: #666;
+    width: 40%;
+}
+
+.confirm-dialog-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-cancel,
+.btn-confirm {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-cancel {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+.btn-confirm {
+    background: var(--primary-color);
+    border: none;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #e9ecef;
+}
+
+.btn-confirm:hover {
+    background: var(--primary-dark);
+}
+
+/* Animation for adding/removing rows */
+.tests-table tr,
+.reserved-tests tr {
+    transition: opacity 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .reserve-main {
+        grid-template-columns: 1fr;
+    }
+
+    .reserved-tests {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .reserve-main {
+        padding: 1rem;
+    }
+
+    .reserve-content {
+        padding: 1rem;
+    }
+
+    .tests-table {
+        font-size: 0.9rem;
+    }
+    
+    .tests-table th,
+    .tests-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .confirm-dialog {
+        padding: 1.5rem;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirm-dialog-buttons {
+        flex-direction: column;
+    }
+
+    .btn-cancel,
+    .btn-confirm {
+        width: 100%;
+        text-align: center;
+    }
+}
