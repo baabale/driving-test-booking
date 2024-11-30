@@ -1,71 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Create and show dialog function
-    function showDialog({ title, message, content = '', confirmText = 'Confirm', cancelText = 'Cancel', onConfirm, onCancel }) {
-        const dialog = document.createElement('div');
-        dialog.className = 'confirm-dialog';
-        dialog.innerHTML = `
-            <div class="confirm-dialog-content">
-                <h4>${title}</h4>
-                <p>${message}</p>
-                ${content}
-                <div class="confirm-dialog-buttons">
-                    <button class="btn-cancel">${cancelText}</button>
-                    <button class="btn-confirm">${confirmText}</button>
-                </div>
-            </div>
-        `;
-
-        // Add backdrop
-        const backdrop = document.createElement('div');
-        backdrop.className = 'dialog-backdrop';
-        document.body.appendChild(backdrop);
-        document.body.appendChild(dialog);
-
-        // Handle dialog buttons
-        const cancelButton = dialog.querySelector('.btn-cancel');
-        const confirmButton = dialog.querySelector('.btn-confirm');
-
-        function closeDialog() {
-            dialog.classList.add('dialog-closing');
-            backdrop.classList.add('dialog-closing');
-            setTimeout(() => {
-                dialog.remove();
-                backdrop.remove();
-            }, 300);
-        }
-
-        cancelButton.addEventListener('click', () => {
-            if (onCancel) onCancel();
-            closeDialog();
-        });
-
-        confirmButton.addEventListener('click', () => {
-            if (onConfirm) onConfirm();
-            closeDialog();
-        });
-
-        // Close on backdrop click
-        backdrop.addEventListener('click', () => {
-            if (onCancel) onCancel();
-            closeDialog();
-        });
-
-        // Close on escape key
-        document.addEventListener('keydown', function escapeHandler(e) {
-            if (e.key === 'Escape') {
-                document.removeEventListener('keydown', escapeHandler);
-                if (onCancel) onCancel();
-                closeDialog();
-            }
-        });
-
-        // Add animation classes after a brief delay
-        requestAnimationFrame(() => {
-            dialog.classList.add('dialog-visible');
-            backdrop.classList.add('backdrop-visible');
-        });
-    }
-
     // Show success message function
     function showSuccessMessage(message) {
         const successMessage = document.createElement('div');
@@ -117,30 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = button.closest('tr');
         const centreName = row.querySelector('.centre-name').textContent;
 
-        showDialog({
-            title: 'Remove Test Centre',
-            message: `Are you sure you want to remove ${centreName} from your test centres?`,
-            confirmText: 'Remove',
-            onConfirm: () => {
-                row.style.opacity = '0';
-                setTimeout(() => {
-                    row.remove();
-                    showSuccessMessage(`${centreName} test centre removed successfully!`);
-                }, 300);
-            }
-        });
+        if (confirm(`Are you sure you want to remove ${centreName} from your test centres?`)) {
+            row.style.opacity = '0';
+            setTimeout(() => {
+                row.remove();
+                showSuccessMessage(`${centreName} test centre removed successfully!`);
+            }, 300);
+        }
     }
 
     // Add test centre functionality
     function handleAddCentre() {
         const select = document.getElementById('centreSelect');
         if (!select.value) {
-            showDialog({
-                title: 'Error',
-                message: 'Please select a test centre',
-                confirmText: 'OK',
-                cancelText: null
-            });
+            alert('Please select a test centre');
             return;
         }
 
@@ -196,6 +119,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevWeekBtn = document.getElementById('prevWeek');
     const nextWeekBtn = document.getElementById('nextWeek');
     const weekDisplay = document.querySelector('.week-display');
+    
+    // Initialize current date and click counters
+    let currentDate = new Date();
+    let prevWeekClicks = 0;
+    let nextWeekClicks = 0;
+    
+    // Custom alert function
+    function showCustomAlert(message) {
+        const alert = document.createElement('div');
+        alert.className = 'custom-alert';
+        alert.textContent = message;
+        document.body.appendChild(alert);
+        
+        // Trigger reflow to ensure animation plays
+        alert.offsetHeight;
+        
+        // Show the alert
+        alert.classList.add('show');
+        
+        // Remove the alert after 2 seconds
+        setTimeout(() => {
+            alert.classList.remove('show');
+            setTimeout(() => alert.remove(), 300);
+        }, 2000);
+    }
+
+    // Set to start of current week (Monday)
+    const day = currentDate.getDay();
+    const diff = currentDate.getDate() - day + (day === 0 ? -6 : 1);
+    currentDate = new Date(currentDate.setDate(diff));
 
     function updateDisplay() {
         // Update week display
@@ -280,11 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add navigation button event listeners
     if (prevWeekBtn && nextWeekBtn) {
         prevWeekBtn.addEventListener('click', () => {
+            prevWeekClicks++;
+            showCustomAlert(`Previous Week button clicked ${prevWeekClicks} time${prevWeekClicks === 1 ? '' : 's'}`);
             currentDate.setDate(currentDate.getDate() - 7);
             updateDisplay();
         });
 
         nextWeekBtn.addEventListener('click', () => {
+            nextWeekClicks++;
+            showCustomAlert(`Next Week button clicked ${nextWeekClicks} time${nextWeekClicks === 1 ? '' : 's'}`);
             currentDate.setDate(currentDate.getDate() + 7);
             updateDisplay();
         });
@@ -327,67 +284,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Add remove functionality
                 const removeButton = newRow.querySelector('.btn-remove');
                 removeButton.addEventListener('click', function() {
-                    showDialog({
-                        title: 'Cancel Reservation',
-                        message: 'Are you sure you want to cancel this test reservation?',
-                        confirmText: 'Yes, cancel',
-                        cancelText: 'No, keep it',
-                        onConfirm: () => {
-                            newRow.style.opacity = '0';
-                            setTimeout(() => {
-                                newRow.remove();
+                    if (confirm('Are you sure you want to cancel this test reservation?')) {
+                        newRow.style.opacity = '0';
+                        setTimeout(() => {
+                            newRow.remove();
 
-                                // Add the test back to the main table
-                                const tbody = document.querySelector('.tests-table tbody');
-                                const newTestRow = document.createElement('tr');
-                                newTestRow.innerHTML = `
-                                    <td>${category}</td>
-                                    <td>${time}</td>
-                                    <td>£52.00</td>
-                                    <td>1</td>
-                                    <td>Sun 16th Mar 2025</td>
-                                    <td>
-                                        <button class="btn-reserve">Reserve test</button>
-                                    </td>
-                                `;
-                                
-                                // Add with fade-in animation
-                                newTestRow.style.opacity = '0';
-                                newTestRow.style.transform = 'translateX(10px)';
-                                newTestRow.style.transition = 'all 0.3s ease';
-                                
-                                // Remove "No tests available" if present
-                                const noTestsRow = tbody.querySelector('.no-tests');
-                                if (noTestsRow) {
-                                    noTestsRow.closest('tr').remove();
-                                }
-                                
-                                tbody.appendChild(newTestRow);
-                                
-                                // Trigger reflow to ensure animation plays
-                                newTestRow.offsetHeight;
-                                
-                                // Show the row
-                                newTestRow.style.opacity = '1';
-                                newTestRow.style.transform = 'translateX(0)';
-                                
-                                // Add event listener to the new reserve button
-                                const newReserveButton = newTestRow.querySelector('.btn-reserve');
-                                newReserveButton.addEventListener('click', function() {
-                                    handleReserveButtonClick(this);
-                                });
-                                
-                                // If no more reservations, show "No information found"
-                                if (reservedTable.children.length === 0) {
-                                    const emptyRow = document.createElement('tr');
-                                    emptyRow.innerHTML = '<td colspan="3">No information found</td>';
-                                    reservedTable.appendChild(emptyRow);
-                                }
-                                
-                                showSuccessMessage('Reservation cancelled successfully!');
-                            }, 300);
-                        }
-                    });
+                            // Add the test back to the main table
+                            const tbody = document.querySelector('.tests-table tbody');
+                            const newTestRow = document.createElement('tr');
+                            newTestRow.innerHTML = `
+                                <td>${category}</td>
+                                <td>${time}</td>
+                                <td>£52.00</td>
+                                <td>1</td>
+                                <td>Sun 16th Mar 2025</td>
+                                <td>
+                                    <button class="btn-reserve">Reserve test</button>
+                                </td>
+                            `;
+                            
+                            // Add with fade-in animation
+                            newTestRow.style.opacity = '0';
+                            newTestRow.style.transform = 'translateX(10px)';
+                            newTestRow.style.transition = 'all 0.3s ease';
+                            
+                            // Remove "No tests available" if present
+                            const noTestsRow = tbody.querySelector('.no-tests');
+                            if (noTestsRow) {
+                                noTestsRow.closest('tr').remove();
+                            }
+                            
+                            tbody.appendChild(newTestRow);
+                            
+                            // Trigger reflow to ensure animation plays
+                            newTestRow.offsetHeight;
+                            
+                            // Show the row
+                            newTestRow.style.opacity = '1';
+                            newTestRow.style.transform = 'translateX(0)';
+                            
+                            // Add event listener to the new reserve button
+                            const newReserveButton = newTestRow.querySelector('.btn-reserve');
+                            newReserveButton.addEventListener('click', function() {
+                                handleReserveButtonClick(this);
+                            });
+                            
+                            // If no more reservations, show "No information found"
+                            if (reservedTable.children.length === 0) {
+                                const emptyRow = document.createElement('tr');
+                                emptyRow.innerHTML = '<td colspan="3">No information found</td>';
+                                reservedTable.appendChild(emptyRow);
+                            }
+                            
+                            showSuccessMessage('Reservation cancelled successfully!');
+                        }, 300);
+                    }
                 });
             }
             
@@ -481,11 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize the app
-    let currentDate = new Date();
-    
-    // Initialize event handlers first
     initializeEventHandlers();
-    
-    // Then update display
     updateDisplay();
 });
